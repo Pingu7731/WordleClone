@@ -4,6 +4,7 @@ import 'package:wordleclone/wordle/data/word_list.dart';
 import 'package:wordleclone/wordle/model/letter_model.dart';
 import 'package:wordleclone/wordle/model/word_model.dart';
 import 'package:wordleclone/wordle/widget/board.dart';
+import 'package:wordleclone/wordle/widget/keyboard.dart';
 
 enum GameStatus { playing, submitting, lost, won }
 
@@ -46,7 +47,39 @@ class _WordleScreenState extends State<WordleScreen> {
           ),
         ),
       ),
-      body: Column(children: [Board(board: [])]),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+
+        children: [
+          Board(board: board),
+          const SizedBox(height: 80),
+          Keyboard(
+            onKeyTapped: onKeyTapped,
+            onDeleteTapped: onDeleteTapped,
+            onEnterTapped: onEnterTapped,
+          ),
+        ],
+      ),
     );
+  }
+
+  void onKeyTapped(String val) {
+    if (gameStatus == GameStatus.playing) {
+      setState(() => currentword?.addLetter(val));
+    }
+  }
+
+  void onDeleteTapped() {
+    if (gameStatus == GameStatus.playing) {
+      setState(() => currentword?.removeLetter());
+    }
+  }
+
+  void onEnterTapped() {
+    if (gameStatus == GameStatus.playing &&
+        currentword != null &&
+        !currentword!.letters.contains(Letter.empty())) {
+      gameStatus = GameStatus.submitting;
+    }
   }
 }
