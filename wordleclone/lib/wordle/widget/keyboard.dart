@@ -11,12 +11,13 @@ class Keyboard extends StatelessWidget {
   final void Function(String) onKeyTapped;
   final VoidCallback onDeleteTapped;
   final VoidCallback onEnterTapped;
-
+  final Set<Letter> letters;
   const Keyboard({
     Key? key,
     required this.onKeyTapped,
     required this.onDeleteTapped,
     required this.onEnterTapped,
+    required this.letters,
   }) : super(key: key);
 
   @override
@@ -35,10 +36,17 @@ class Keyboard extends StatelessWidget {
                         } else if (letter == 'ENTER') {
                           return KeyboardButton.enter(onTap: onEnterTapped);
                         }
+                        final letterKey = letters.firstWhere(
+                          (e) => e.val == letter,
+                          orElse: () => Letter.empty(),
+                        );
                         return KeyboardButton(
                           onTap: () => onKeyTapped(letter),
                           letter: letter,
-                          backgroundColor: Colors.grey,
+                          backgroundColor:
+                              letterKey != Letter.empty()
+                                  ? letterKey.backgroundColor
+                                  : Colors.grey,
                         );
                       }).toList(),
                 ),
@@ -94,7 +102,7 @@ class KeyboardButton extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               letter,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
             ),
           ),
         ),
