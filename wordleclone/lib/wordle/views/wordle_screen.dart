@@ -41,23 +41,21 @@ class _WordleScreenState extends State<WordleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'WORDLE',
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 4,
-          ),
-        ),
-      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: [
+          const Padding(
+            padding: EdgeInsets.only(bottom: 16),
+            child: Text(
+              'Wordle',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 4,
+              ),
+            ),
+          ),
           Board(board: board, flipCardKeys: flipCardKeys),
           const SizedBox(height: 80),
           Keyboard(
